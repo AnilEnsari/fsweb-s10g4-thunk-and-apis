@@ -15,7 +15,7 @@ function readFavsFromLocalStorage() {
 const getItem = readFavsFromLocalStorage();
 console.log(getItem);
 const initial = {
-  favs: getItem,
+  favs: getItem ? getItem : [],
   current: null,
   error: null,
   loading: false,
