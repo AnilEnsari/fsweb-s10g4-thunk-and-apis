@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
   FAV_ADD,
   FAV_REMOVE,
@@ -25,7 +26,7 @@ function readFavsFromLocalStorage() {
 export function myReducer(state = initial, action) {
   switch (action.type) {
     case FAV_ADD:
-      return state;
+      return { ...state, favs: [...state.favs, action.payload] };
 
     case FAV_REMOVE:
       return state;
@@ -34,10 +35,22 @@ export function myReducer(state = initial, action) {
       return { ...state, current: action.payload };
 
     case FETCH_LOADING:
-      return state;
+      return { ...state, loading: !state.loading };
 
     case FETCH_ERROR:
-      return state;
+      return {
+        ...state,
+        error: toast(`TOSTLU HATA: ${action.payload}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }),
+      };
 
     case GET_FAVS_FROM_LS:
       return state;

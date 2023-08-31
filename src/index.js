@@ -4,13 +4,12 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { legacy_createStore as createStore } from "redux";
+import { applyMiddleware, legacy_createStore as createStore } from "redux";
 import { Provider } from "react-redux";
 import { myReducer } from "./reducers";
 import thunk from "redux-thunk";
-import { ToastContainer } from "react-toastify";
 
-const store = createStore(applyMiddleware(thunk), myReducer);
+const store = createStore(myReducer, applyMiddleware(thunk));
 // const store = createStore(
 //   rootReducer,
 //   applyMiddleware(thunk)
@@ -21,7 +20,6 @@ root.render(
     <BrowserRouter>
       <>
         <App />
-        <ToastContainer />
       </>
     </BrowserRouter>
   </Provider>
