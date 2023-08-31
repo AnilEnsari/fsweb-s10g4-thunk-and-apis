@@ -11,7 +11,7 @@ export default function App() {
   const loading = useSelector((store) => store.loading);
   const current = useSelector((store) => store.current);
 
-  const favs = [];
+  const favs = useSelector((store) => store.favs);
   const dispatch = useDispatch();
 
   const addToFavs = () => dispatch(addFav(current));
@@ -64,7 +64,12 @@ export default function App() {
           <div className="flex flex-col gap-3">
             {favs.length > 0 ? (
               favs.map((item) => (
-                <FavItem key={item.key} id={item.key} title={item.punchline} />
+                <FavItem
+                  key={item.id}
+                  id={item.id}
+                  title={item.punchline}
+                  setup={item.setup}
+                />
               ))
             ) : (
               <div className="bg-white p-6 text-center shadow-md">

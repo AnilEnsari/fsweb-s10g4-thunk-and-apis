@@ -29,7 +29,10 @@ export function myReducer(state = initial, action) {
       return { ...state, favs: [...state.favs, action.payload] };
 
     case FAV_REMOVE:
-      return state;
+      return {
+        ...state,
+        favs: state.favs.filter((eleman) => action.payload !== eleman.id),
+      };
 
     case FETCH_SUCCESS:
       return { ...state, current: action.payload };
