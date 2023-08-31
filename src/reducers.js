@@ -6,25 +6,31 @@ import {
   FETCH_LOADING,
   FETCH_ERROR,
   GET_FAVS_FROM_LS,
+  SET_FAVS_FROM_LS,
 } from "./actions";
-
-const initial = {
-  favs: [],
-  current: null,
-  error: null,
-  loading: true,
-};
-
-function writeFavsToLocalStorage(state) {
-  localStorage.setItem("s10g4", JSON.stringify(state.favs));
-}
 
 function readFavsFromLocalStorage() {
   return JSON.parse(localStorage.getItem("s10g4"));
 }
+const getItem = readFavsFromLocalStorage();
+console.log(getItem);
+const initial = {
+  favs: getItem,
+  current: null,
+  error: null,
+  loading: false,
+};
+
+// function writeFavsToLocalStorage(state) {
+//   return localStorage.setItem("s10g4", JSON.stringify(state.favs));
+// }
 
 export function myReducer(state = initial, action) {
   switch (action.type) {
+    case SET_FAVS_FROM_LS:
+      localStorage.setItem("s10g4", JSON.stringify(state.favs));
+      return state;
+
     case FAV_ADD:
       return { ...state, favs: [...state.favs, action.payload] };
 
@@ -56,6 +62,7 @@ export function myReducer(state = initial, action) {
       };
 
     case GET_FAVS_FROM_LS:
+      readFavsFromLocalStorage();
       return state;
 
     default:

@@ -3,8 +3,8 @@ import { Switch, Route, NavLink } from "react-router-dom";
 import Item from "./components/Item";
 import FavItem from "./components/FavItem";
 import { useDispatch, useSelector } from "react-redux";
-import { addFav, fetchAnother } from "./actions";
-import { ToastContainer } from "react-toastify";
+import { addFav, fetchAnother, setFavsFromLocalStorage } from "./actions";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
@@ -13,8 +13,21 @@ export default function App() {
 
   const favs = useSelector((store) => store.favs);
   const dispatch = useDispatch();
-
-  const addToFavs = () => dispatch(addFav(current));
+  const addToFavs = () => {
+    toast("Güzel ekledin !", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    dispatch(addFav(current));
+    dispatch(fetchAnother());
+    dispatch(setFavsFromLocalStorage());
+  };
   useEffect(() => {
     dispatch(fetchAnother());
   }, []);
@@ -48,7 +61,10 @@ export default function App() {
           <ToastContainer />
 
           <div className="flex gap-3 justify-end py-3">
-            <button className="select-none px-4 py-2 border border-blue-700 text-blue-700 hover:border-blue-500 hover:text-blue-500">
+            <button
+              onClick={() => dispatch(fetchAnother())}
+              className="select-none px-4 py-2 border border-blue-700 text-blue-700 hover:border-blue-500 hover:text-blue-500"
+            >
               Başka bir tane
             </button>
             <button
@@ -57,6 +73,7 @@ export default function App() {
             >
               Favorilere ekle
             </button>
+            <ToastContainer />
           </div>
         </Route>
 
